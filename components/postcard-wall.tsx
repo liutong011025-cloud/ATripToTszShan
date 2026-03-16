@@ -40,8 +40,8 @@ export default function PostcardWall({ postcards, onPostcardVoted, onPostcardDel
 
   return (
     <>
-      {/* Postcard Grid - bigger cards, larger gaps */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* Postcard Grid - bigger cards, larger horizontal gaps */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-10">
         {postcards.map((postcard) => (
           <PostcardCard 
             key={postcard.id}
