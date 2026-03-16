@@ -1,0 +1,67 @@
+'use client'
+// v3 - Fix cache
+
+import { useState } from 'react'
+import PostcardCard from '@/components/postcard-card'
+import PostcardModal from '@/components/postcard-modal'
+
+interface Postcard {
+  id: string
+  name: string
+  anonymous: boolean
+  title: string
+  short_desc: string
+  photo_url: string
+  thumbnail_url: string
+  handwritten_image_url: string
+  pro_reflection: string
+  avg_score: number
+  score_count: number
+  created_at: string
+}
+
+interface PostcardWallProps {
+  postcards: Postcard[]
+  onPostcardVoted: () => void
+  onPostcardDeleted?: (id: string) => void
+}
+
+export default function PostcardWall({ postcards, onPostcardVoted, onPostcardDeleted }: PostcardWallProps) {
+  const [selectedPostcard, setSelectedPostcard] = useState<Postcard | null>(null)
+
+  const handleDelete = async (id: string) => {
+    if (onPostcardDeleted) {
+      await onPostcardDeleted(id)
+    }
+    if (selectedPostcard?.id === id) {
+      setSelectedPostcard(null)
+    }
+  }
+
+  return (
+    <>
+      {/* Postcard Grid - bigger cards, larger gaps */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {postcards.map((postcard) => (
+          <PostcardCard 
+            key={postcard.id}
+            postcard={postcard} 
+            onClick={() => setSelectedPostcard(postcard)}
+            onDelete={() => handleDelete(postcard.id)}
+          />
+        ))}
+      </div>
+
+      {selectedPostcard && (
+        <PostcardModal
+          postcard={selectedPostcard}
+          onClose={() => setSelectedPostcard(null)}
+          onVoted={() => {
+            setSelectedPostcard(null)
+            onPostcardVoted()
+          }}
+        />
+      )}
+    </>
+  )
+}
