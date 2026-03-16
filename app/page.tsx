@@ -33,6 +33,7 @@ export default function Home() {
     setShowForm(false)
   }
 
+  // 双击删除：调用后端接口真正删除
   const handlePostcardDeleted = async (id: string) => {
     try {
       const response = await fetch('/api/admin/posts', {
