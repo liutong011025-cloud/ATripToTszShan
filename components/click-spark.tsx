@@ -22,7 +22,7 @@ interface Spark {
 }
 
 const ClickSpark: React.FC<ClickSparkProps> = ({
-  sparkColor = '#fff',
+  sparkColor = '#d97706',
   sparkSize = 10,
   sparkRadius = 15,
   sparkCount = 8,
@@ -134,7 +134,7 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
     }
   }, [sparkColor, sparkSize, sparkRadius, sparkCount, duration, easeFunc, extraScale])
 
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>): void => {
+  const handlePointerDownCapture = (e: React.PointerEvent<HTMLDivElement>): void => {
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -157,10 +157,10 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
     <div
       style={{
         width: '100%',
-        height: '100%',
+        minHeight: '100%',
         position: 'relative',
       }}
-      onClick={handleClick}
+      onPointerDownCapture={handlePointerDownCapture}
     >
       <canvas
         ref={canvasRef}
