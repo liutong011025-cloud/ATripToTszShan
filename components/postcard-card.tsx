@@ -29,6 +29,7 @@ export default function PostcardCard({ postcard, onClick, onDelete }: PostcardCa
   const overlayRef = useRef<HTMLDivElement>(null)
   const [hasAnimated, setHasAnimated] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  const clickTimeoutRef = useRef<number | null>(null)
 
   const handleDoubleClick = () => {
     if (!onDelete) return
@@ -40,6 +41,21 @@ export default function PostcardCard({ postcard, onClick, onDelete }: PostcardCa
     } else if (password !== null) {
       window.alert('密码错误，删除已取消。')
     }
+  }
+
+  const handleCardClick = () => {
+    // 模拟单击 / 双击：短时间内第二次点击则视为双击，不打开详情
+    if (clickTimeoutRef.current !== null) {
+      window.clearTimeout(clickTimeoutRef.current)
+      clickTimeoutRef.current = null
+      handleDoubleClick()
+      return
+    }
+
+    clickTimeoutRef.current = window.setTimeout(() => {
+      clickTimeoutRef.current = null
+      onClick()
+    }, 250)
   }
 
   useEffect(() => {
@@ -108,8 +124,7 @@ export default function PostcardCard({ postcard, onClick, onDelete }: PostcardCa
       ref={cardRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onClick={onClick}
-      onDoubleClick={handleDoubleClick}
+      onClick={handleCardClick}
       className="relative overflow-hidden rounded-lg cursor-pointer shadow-md"
       style={{ aspectRatio: '16/9' }}
     >
