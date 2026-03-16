@@ -157,25 +157,25 @@ export default function PostcardCard({ postcard, onClick, onDelete }: PostcardCa
         className="w-full h-full object-cover"
       />
 
-      {/* Holographic shine that follows the cursor */}
+      {/* Holographic shine that follows the cursor (smaller, premium band) */}
       {isHovered && (
         <div
-          className="pointer-events-none absolute inset-0 rounded-lg mix-blend-screen opacity-90 transition-opacity duration-150"
+          className="pointer-events-none absolute inset-[14%] rounded-[20px] mix-blend-screen opacity-85 transition-opacity duration-150"
           style={{
             backgroundImage: `
               repeating-linear-gradient(
                 115deg,
-                rgba(255,255,255,0.9) 0px,
-                rgba(255,255,255,0.9) 2px,
-                rgba(56,189,248,0.6) 4px,
-                rgba(244,114,182,0.55) 8px,
-                rgba(56,189,248,0.4) 12px,
-                transparent 18px
+                rgba(255,255,255,0.95) 0px,
+                rgba(255,255,255,0.95) 1px,
+                rgba(125,211,252,0.7) 3px,
+                rgba(244,114,182,0.65) 6px,
+                rgba(129,140,248,0.55) 9px,
+                transparent 14px
               ),
               radial-gradient(
                 circle at ${pointerPos.x}% ${pointerPos.y}%,
-                rgba(255,255,255,0.95),
-                transparent 55%
+                rgba(255,255,255,0.85),
+                transparent 40%
               )
             `.replace(/\\s+/g, ' '),
             backgroundBlendMode: 'screen, normal',
