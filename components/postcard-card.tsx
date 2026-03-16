@@ -35,12 +35,7 @@ export default function PostcardCard({ postcard, onClick, onDelete }: PostcardCa
     if (!onDelete) return
     const confirmDelete = window.confirm('是否删除这张明信片？')
     if (!confirmDelete) return
-    const password = window.prompt('请输入测试密码以删除：')
-    if (password === 'Tony1025') {
-      onDelete()
-    } else if (password !== null) {
-      window.alert('密码错误，删除已取消。')
-    }
+    onDelete()
   }
 
   const handleCardClick = () => {
