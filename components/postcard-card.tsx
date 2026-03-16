@@ -1,6 +1,20 @@
 'use client'
 
 import { useState, useEffect, useRef, MouseEvent } from 'react'
+
+// 注入一次全局 keyframes，用于亮片动画
+const KEYFRAMES_ID = 'postcard-holo-keyframes'
+if (typeof document !== 'undefined' && !document.getElementById(KEYFRAMES_ID)) {
+  const style = document.createElement('style')
+  style.id = KEYFRAMES_ID
+  style.textContent = `
+    @keyframes postcard-holo-bg {
+      0% { background-position: 0% 0%, 0 0; }
+      100% { background-position: 120% 120%, 40px 80px; }
+    }
+  `
+  document.head.appendChild(style)
+}
 import gsap from 'gsap'
 
 interface Postcard {
@@ -146,9 +160,26 @@ export default function PostcardCard({ postcard, onClick, onDelete }: PostcardCa
       {/* Holographic shine that follows the cursor */}
       {isHovered && (
         <div
-          className="pointer-events-none absolute inset-0 rounded-lg mix-blend-screen opacity-80 transition-opacity duration-150"
+          className="pointer-events-none absolute inset-0 rounded-lg mix-blend-screen opacity-90 transition-opacity duration-150"
           style={{
-            background: `radial-gradient(circle at ${pointerPos.x}% ${pointerPos.y}%, rgba(255,255,255,0.9), transparent 55%)`,
+            backgroundImage: `
+              repeating-linear-gradient(
+                115deg,
+                rgba(255,255,255,0.9) 0px,
+                rgba(255,255,255,0.9) 2px,
+                rgba(56,189,248,0.6) 4px,
+                rgba(244,114,182,0.55) 8px,
+                rgba(56,189,248,0.4) 12px,
+                transparent 18px
+              ),
+              radial-gradient(
+                circle at ${pointerPos.x}% ${pointerPos.y}%,
+                rgba(255,255,255,0.95),
+                transparent 55%
+              )
+            `.replace(/\\s+/g, ' '),
+            backgroundBlendMode: 'screen, normal',
+            animation: 'postcard-holo-bg 18s linear infinite',
           }}
         />
       )}
