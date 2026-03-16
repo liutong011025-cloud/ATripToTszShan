@@ -39,13 +39,13 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const parent = canvas.parentElement
-    if (!parent) return
-
+    // Canvas covers the whole viewport so clicks anywhere can spark,
+    // even when children stopPropagation().
     let resizeTimeout: ReturnType<typeof setTimeout>
 
     const resizeCanvas = () => {
-      const { width, height } = parent.getBoundingClientRect()
+      const width = window.innerWidth
+      const height = window.innerHeight
       if (canvas.width !== width || canvas.height !== height) {
         canvas.width = width
         canvas.height = height
@@ -57,12 +57,11 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
       resizeTimeout = setTimeout(resizeCanvas, 100)
     }
 
-    const ro = new ResizeObserver(handleResize)
-    ro.observe(parent)
+    window.addEventListener('resize', handleResize, { passive: true })
     resizeCanvas()
 
     return () => {
-      ro.disconnect()
+      window.removeEventListener('resize', handleResize)
       clearTimeout(resizeTimeout)
     }
   }, [])
@@ -134,40 +133,41 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
     }
   }, [sparkColor, sparkSize, sparkRadius, sparkCount, duration, easeFunc, extraScale])
 
-  const handlePointerDownCapture = (e: React.PointerEvent<HTMLDivElement>): void => {
-    const canvas = canvasRef.current
-    if (!canvas) return
+  useEffect(() => {
+    const handlePointerDown = (e: PointerEvent) => {
+      const canvas = canvasRef.current
+      if (!canvas) return
 
-    const rect = canvas.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
+      const x = e.clientX
+      const y = e.clientY
 
-    const now = performance.now()
-    const newSparks: Spark[] = Array.from({ length: sparkCount }, (_, i) => ({
-      x,
-      y,
-      angle: (2 * Math.PI * i) / sparkCount,
-      startTime: now,
-    }))
+      const now = performance.now()
+      const newSparks: Spark[] = Array.from({ length: sparkCount }, (_, i) => ({
+        x,
+        y,
+        angle: (2 * Math.PI * i) / sparkCount,
+        startTime: now,
+      }))
 
-    sparksRef.current.push(...newSparks)
-  }
+      sparksRef.current.push(...newSparks)
+    }
+
+    // Capture phase so nested stopPropagation() doesn't block sparks.
+    window.addEventListener('pointerdown', handlePointerDown, { capture: true, passive: true })
+    return () => {
+      window.removeEventListener('pointerdown', handlePointerDown, true)
+    }
+  }, [sparkCount])
 
   return (
-    <div
-      style={{
-        width: '100%',
-        minHeight: '100%',
-        position: 'relative',
-      }}
-      onPointerDownCapture={handlePointerDownCapture}
-    >
+    <div style={{ position: 'relative' }}>
       <canvas
         ref={canvasRef}
         style={{
-          position: 'absolute',
+          position: 'fixed',
           inset: 0,
           pointerEvents: 'none',
+          zIndex: 9999,
         }}
       />
       {children}
