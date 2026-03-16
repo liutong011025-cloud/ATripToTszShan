@@ -110,7 +110,8 @@ export default function PostcardForm({ onSubmitted }: PostcardFormProps) {
         <div className="h-0.5 flex-1 bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
       </div>
 
-      <h2 className="text-2xl font-bold text-center text-amber-900 mb-8 tracking-wide">Submit Postcard</h2>
+      <h2 className="text-2xl font-bold text-center text-amber-900 mb-2 tracking-wide">Submit Postcard</h2>
+      <p className="text-center text-xs text-amber-700 mb-6">You can choose to write in English or Chinese.</p>
 
       {error && (
         <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
@@ -177,7 +178,6 @@ export default function PostcardForm({ onSubmitted }: PostcardFormProps) {
         {/* Reflection Field */}
         <FieldGroup>
           <FieldLabel className="text-amber-900 font-semibold">After this visit, what deeper understanding do you have about AI and Buddhism?</FieldLabel>
-          <p className="text-xs text-amber-700 mt-1">You can choose to write in English or Chinese.</p>
           <textarea
             name="proReflection"
             value={formData.proReflection}
