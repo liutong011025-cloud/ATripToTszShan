@@ -114,7 +114,7 @@ export default function Home() {
           <div>
             <button
               onClick={() => setShowForm(false)}
-              className="mb-6 px-4 py-2 text-amber-100 hover:text-white transition-colors font-semibold shadow-md shadow-amber-900/40"
+              className="mb-6 px-4 py-2 text-amber-900 hover:text-amber-700 transition-colors font-semibold"
             >
               ← Back to Wall
             </button>
@@ -130,7 +130,7 @@ export default function Home() {
               >
                 Submit Postcard
               </button>
-              <p className="text-white/70 text-sm">
+              <p className="text-sky-900 text-sm">
                 Click on a postcard to read
               </p>
             </div>
