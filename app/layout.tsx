@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono, Caveat } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
-import ClickSpark from '@/components/click-spark'
 import type { ReactNode } from 'react'
 import './globals.css'
 
@@ -31,15 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans antialiased ${_caveat.variable}`}>
-        <ClickSpark
-          sparkColor="#fff"
-          sparkSize={23}
-          sparkRadius={30}
-          sparkCount={11}
-          duration={400}
-        >
-          {children}
-        </ClickSpark>
+        {children}
         <Analytics />
       </body>
     </html>
