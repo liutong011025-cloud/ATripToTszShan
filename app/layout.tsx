@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans antialiased ${_caveat.variable}`}>
-        <ClickSpark sparkColor="#ffffff" sparkSize={21} sparkRadius={35} sparkCount={8} duration={400}>
+        <ClickSpark sparkColor="#d97706" sparkSize={21} sparkRadius={35} sparkCount={8} duration={400}>
           {children}
         </ClickSpark>
         <Analytics />
