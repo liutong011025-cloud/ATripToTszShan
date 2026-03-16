@@ -51,7 +51,7 @@ export default function Home() {
       setPostcards((prev) => prev.filter((p) => p.id !== id))
     } catch (e) {
       console.error(e)
-      alert('删除失败，请检查密码或稍后再试。')
+      alert('删除失败，请稍后再试。')
     }
   }
 
