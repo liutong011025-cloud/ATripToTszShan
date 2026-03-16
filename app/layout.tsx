@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono, Caveat } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import ClickSpark from '@/components/click-spark'
+import type { ReactNode } from 'react'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -24,12 +26,20 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: ReactNode
 }>) {
   return (
     <html lang="en">
       <body className={`font-sans antialiased ${_caveat.variable}`}>
-        {children}
+        <ClickSpark
+          sparkColor="#fff"
+          sparkSize={23}
+          sparkRadius={30}
+          sparkCount={11}
+          duration={400}
+        >
+          {children}
+        </ClickSpark>
         <Analytics />
       </body>
     </html>
